@@ -82,56 +82,15 @@
       padding: 2rem 1rem;
     }
 
-    .logo { margin-bottom: 1rem; }
+    .logo {
+      margin-bottom: 1rem;
+    }
 
-    .logo-space {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2.5rem, 8vw, 4.5rem);
-      font-weight: 700;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
+    .logo img {
+      width: clamp(220px, 60vw, 380px);
+      height: auto;
       display: block;
-      line-height: 1;
-    }
-
-    .logo-philic {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(1.2rem, 4vw, 2rem);
-      font-weight: 400;
-      letter-spacing: 0.55em;
-      text-transform: uppercase;
-      display: block;
-      opacity: 0.7;
-      margin-top: 0.2em;
-    }
-
-    .orbit-ring {
-      width: 120%;
-      max-width: 500px;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-      margin: -0.8rem auto 0;
-      position: relative;
-      transform: rotate(-6deg);
-    }
-
-    .orbit-ring::after {
-      content: '';
-      position: absolute;
-      right: 15%;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 8px;
-      height: 8px;
-      background: #fff;
-      border-radius: 50%;
-      box-shadow: 0 0 10px rgba(255,255,255,0.8);
-      animation: orbit-pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes orbit-pulse {
-      0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
-      50% { opacity: 0.5; transform: translateY(-50%) scale(0.7); }
+      margin: 0 auto;
     }
 
     .tagline {
@@ -367,9 +326,7 @@
       <div class="flip-front">
         <div class="front-content">
           <div class="logo">
-            <span class="logo-space">SPACE</span>
-            <div class="orbit-ring"></div>
-            <span class="logo-philic">PHILIC</span>
+            <img src="space philic website v1 ( final draft) (1).svg" alt="Space Philic">
           </div>
 
           <p class="tagline">space is kind of cool</p>
