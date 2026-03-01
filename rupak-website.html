@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUPAK - Reusable Launch Vehicle | Space Philic</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #010000;
+            color: rgba(221, 221, 221, 0.89);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(1, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 5%;
+            z-index: 1000;
+            border-bottom: none;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 8rem 5% 4rem;
+            background: #010000;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1400px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: 8px;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.2rem;
+            color: rgba(221, 221, 221, 0.89);
+            margin-bottom: 2rem;
+            letter-spacing: 3px;
+        }
+
+        .hero-specs {
+            display: flex;
+            gap: 3rem;
+            margin: 2rem 0;
+        }
+
+        .spec-item {
+            text-align: center;
+        }
+
+        .spec-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            display: block;
+        }
+
+        .spec-label {
+            font-size: 0.9rem;
+            color: rgba(221, 221, 221, 0.89);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+
+        .btn-secondary:hover {
+            background: #fff;
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        .hero-rocket {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rocket-placeholder {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1/4;
+            background: #010000;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(221, 221, 221, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rocket-placeholder::before {
+            content: 'RUPAK ROCKET IMAGE';
+            color: #444;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .rocket-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Vision Mission Section */
+        .vision-mission {
+            padding: 6rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .vision-mission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .vm-card {
+            padding: 3rem;
+            background: #010000;
+            border-radius: 10px;
+            border: none;
+        }
+
+        .vm-card h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 3px;
+            color: #fff;
+        }
+
+        .vm-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(221, 221, 221, 0.89);
+        }
+
+        /* SHAKTI Engine Section */
+        .shakti-section {
+            padding: 6rem 5%;
+            background: #010000;
+        }
+
+        .shakti-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .shakti-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .shakti-header h2 {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .shakti-header .subtitle {
+            font-size: 1.2rem;
+            color: rgba(221, 221, 221, 0.89);
+            letter-spacing: 2px;
+        }
+
+        .engine-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 4rem;
+        }
+
+        .engine-image {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: #010000;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(221, 221, 221, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .engine-image::before {
+            content: 'SHAKTI ENGINE IMAGE (16:9 or 4:3)';
+            color: #444;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .engine-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .engine-details {
+            padding: 2rem;
+        }
+
+        .engine-details h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .engine-details p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(221, 221, 221, 0.89);
+            margin-bottom: 2rem;
+        }
+
+        .engine-specs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .engine-spec-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: #010000;
+            border-radius: 8px;
+            border: none;
+        }
+
+        .engine-spec-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .engine-spec-label {
+            font-size: 0.9rem;
+            color: rgba(221, 221, 221, 0.89);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Payload Platforms Section */
+        .payload-platforms {
+            padding: 6rem 5%;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            margin-bottom: 4rem;
+        }
+
+        .platform-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 6rem;
+            padding: 3rem;
+            background: #010000;
+            border-radius: 15px;
+            border: none;
+        }
+
+        .platform-card:nth-child(even) {
+            direction: rtl;
+        }
+
+        .platform-card:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .platform-image {
+            width: 100%;
+            aspect-ratio: 1/3;
+            background: #010000;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(221, 221, 221, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .platform-image::before {
+            content: 'ROCKET IMAGE (1:3 ratio)';
+            color: #444;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-align: center;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+
+        .platform-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .platform-content {
+            padding: 2rem;
+        }
+
+        .platform-number {
+            font-size: 5rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.1);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .platform-category {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: rgba(221, 221, 221, 0.89);
+            margin-bottom: 0.5rem;
+        }
+
+        .platform-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+        }
+
+        .platform-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(221, 221, 221, 0.89);
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 6rem 5%;
+            background: #010000;
+        }
+
+        .team-section .section-title {
+            margin-bottom: 4rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .team-card {
+            background: #010000;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .team-photo {
+            width: 150px;
+            height: 150px;
+            aspect-ratio: 1/1;
+            background: #010000;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid rgba(221, 221, 221, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-photo::before {
+            content: 'PHOTO';
+            color: #444;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .team-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .team-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .team-role {
+            font-size: 1rem;
+            color: rgba(221, 221, 221, 0.89);
+            margin-bottom: 1rem;
+        }
+
+        .team-education {
+            font-size: 0.9rem;
+            color: rgba(221, 221, 221, 0.89);
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .team-experience {
+            font-size: 0.85rem;
+            color: rgba(221, 221, 221, 0.89);
+            margin-bottom: 0.5rem;
+        }
+
+        .team-focus {
+            font-size: 0.85rem;
+            color: rgba(221, 221, 221, 0.89);
+            line-height: 1.4;
+        }
+
+        .team-linkedin {
+            margin-top: 1rem;
+            display: inline-block;
+        }
+
+        .linkedin-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(221, 221, 221, 0.1);
+            border: 1px solid rgba(221, 221, 221, 0.3);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .linkedin-link:hover {
+            background: #0077b5;
+            border-color: #0077b5;
+            transform: translateY(-3px);
+        }
+
+        .linkedin-link svg {
+            width: 20px;
+            height: 20px;
+            fill: rgba(221, 221, 221, 0.89);
+        }
+
+        .linkedin-link:hover svg {
+            fill: #fff;
+        }
+
+        /* Footer */
+        footer {
+            background: #010000;
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: none;
+        }
+
+        footer p {
+            color: rgba(221, 221, 221, 0.89);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content,
+            .vision-mission-grid,
+            .engine-showcase,
+            .platform-card {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+
+            .platform-card:nth-child(even) {
+                direction: ltr;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+
+            .shakti-header h2 {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                letter-spacing: 3px;
+            }
+
+            .hero-specs {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .engine-specs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">SPACE PHILIC</div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>RUPAK</h1>
+                <p class="subtitle">Reusable Launch Vehicle</p>
+
+                <div class="hero-specs">
+                    <div class="spec-item">
+                        <span class="spec-value">250kg</span>
+                        <span class="spec-label">Payload Mass</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-value">288KN</span>
+                        <span class="spec-label">Combined Thrust</span>
+                    </div>
+                </div>
+
+                <p style="color: rgba(221, 221, 221, 0.89); font-size: 1.1rem; margin-top: 2rem;">
+                    The upper stage is designed to carry and deploy satellites with a maximum payload mass of 250 kg,
+                    providing a reliable platform for placing small and micro-spacecraft into their designated orbits.
+                </p>
+
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">Book Your Launch</a>
+                    <a href="#specs" class="btn btn-secondary">Cycle Thrust</a>
+                </div>
+            </div>
+
+            <div class="hero-rocket">
+                <div class="rocket-placeholder">
+                    <!-- Image aspect ratio: 1:4 (portrait, vertical) -->
+                    <!-- <img src="path/to/rupak-rocket.png" alt="RUPAK Rocket"> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision & Mission Section -->
+    <section class="vision-mission">
+        <div class="vision-mission-grid">
+            <div class="vm-card">
+                <h2>VISION</h2>
+                <p>To develop and operate cutting edge space technology to support life on planets or in space.</p>
+            </div>
+            <div class="vm-card">
+                <h2>MISSION</h2>
+                <p>To become a pioneer in space tech industry by developing a sustainable ecosystem.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHAKTI Engine Section -->
+    <section class="shakti-section" id="specs">
+        <div class="shakti-content">
+            <div class="shakti-header">
+                <h2>SHAKTI</h2>
+                <p class="subtitle">The Engine</p>
+            </div>
+
+            <div class="engine-showcase">
+                <div class="engine-image">
+                    <!-- Image aspect ratio: 16:9 or 4:3 (landscape) -->
+                    <!-- <img src="path/to/shakti-engine.png" alt="SHAKTI Engine"> -->
+                </div>
+
+                <div class="engine-details">
+                    <h3>Advanced Bi-Propellant Technology</h3>
+                    <p>
+                        Shakti is a modern bi-propellant rocket engine designed for high reliability and affordable production.
+                        It uses SLM-based additive manufacturing to cut part count, reduce mass, and avoid complex fabrication steps.
+                        Its electric-pump architecture removes the need for turbopumps and gives clean, predictable control during operation.
+                    </p>
+
+                    <div class="engine-specs">
+                        <div class="engine-spec-item">
+                            <span class="engine-spec-value">Bi-propellants</span>
+                            <span class="engine-spec-label">Propellant Type</span>
+                        </div>
+                        <div class="engine-spec-item">
+                            <span class="engine-spec-value">Electric-fed</span>
+                            <span class="engine-spec-label">Feed System</span>
+                        </div>
+                        <div class="engine-spec-item">
+                            <span class="engine-spec-value">32KN</span>
+                            <span class="engine-spec-label">Thrust</span>
+                        </div>
+                        <div class="engine-spec-item">
+                            <span class="engine-spec-value">301</span>
+                            <span class="engine-spec-label">ISP</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payload Platforms Section -->
+    <section class="payload-platforms">
+        <h2 class="section-title">PAYLOAD PLATFORMS</h2>
+
+        <!-- Platform 1: Commercial -->
+        <div class="platform-card">
+            <div class="platform-image">
+                <!-- Image aspect ratio: 1:3 (portrait, vertical) -->
+                <!-- <img src="path/to/commercial-platform.png" alt="Commercial Platform"> -->
+            </div>
+            <div class="platform-content">
+                <div class="platform-number">1</div>
+                <p class="platform-category">COMMERCIAL</p>
+                <h3 class="platform-title">Fully-Integrated<br>Payload Platform</h3>
+                <p class="platform-description">
+                    The upper stage is designed to carry and deploy satellites with a maximum payload mass of 250 kg,
+                    providing a reliable platform for placing small and micro-spacecraft into their designated orbits.
+                    It supports standard deployment interfaces and ensures precise injection accuracy for commercial,
+                    scientific, and institutional missions.
+                </p>
+            </div>
+        </div>
+
+        <!-- Platform 2: Laboratory -->
+        <div class="platform-card">
+            <div class="platform-image">
+                <!-- Image aspect ratio: 1:3 (portrait, vertical) -->
+                <!-- <img src="path/to/laboratory-platform.png" alt="Laboratory Platform"> -->
+            </div>
+            <div class="platform-content">
+                <div class="platform-number">2</div>
+                <p class="platform-category">LABORATORY</p>
+                <h3 class="platform-title">Long Endurance<br>Platform</h3>
+                <p class="platform-description">
+                    Provides a dedicated platform for carrying multiple independent experimental payloads into low Earth orbit,
+                    enabling controlled environmental exposure, in-situ measurement, and continuous real-time data acquisition.
+                    The system supports scientific research, material testing, biological studies, and technology validation
+                    under true orbital conditions.
+                </p>
+            </div>
+        </div>
+
+        <!-- Platform 3: Defence -->
+        <div class="platform-card">
+            <div class="platform-image">
+                <!-- Image aspect ratio: 1:3 (portrait, vertical) -->
+                <!-- <img src="path/to/defence-platform.png" alt="Defence Platform"> -->
+            </div>
+            <div class="platform-content">
+                <div class="platform-number">3</div>
+                <p class="platform-category">DEFENCE</p>
+                <h3 class="platform-title">Rapid-Response<br>Payload Platform</h3>
+                <p class="platform-description">
+                    Provides an independent rapid-response launch service capable of deploying defence payloads within a 24-hour window.
+                    The Rupak ensures priority readiness, minimal turnaround time, and assured access to orbit for critical
+                    national-security missions, enabling real-time tactical support, rapid replenishment, and immediate
+                    space-based capability restoration.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <h2 class="section-title">OUR TEAM</h2>
+        <div class="team-grid">
+            <!-- Team Member 1 -->
+            <div class="team-card">
+                <div class="team-photo">
+                    <!-- Image aspect ratio: 1:1 (square) -->
+                    <!-- <img src="path/to/indra.jpg" alt="Indra Narayan Chaudhary"> -->
+                </div>
+                <h3 class="team-name">Indra Narayan<br>CHAUDHARY</h3>
+                <p class="team-role">Founder | CEO</p>
+                <p class="team-education">B.Tech (Aero. Engg.)</p>
+                <p class="team-experience">Experience: 7+ years</p>
+                <p class="team-focus">FA: Strategy, IT, Operations, PM</p>
+                <div class="team-linkedin">
+                    <a href="https://www.linkedin.com/in/indra-narayan-chaudhary-893906171/" target="_blank" rel="noopener noreferrer" class="linkedin-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Team Member 2 -->
+            <div class="team-card">
+                <div class="team-photo">
+                    <!-- <img src="path/to/devesh.jpg" alt="Devesh Sanyal"> -->
+                </div>
+                <h3 class="team-name">Devesh<br>SANYAL</h3>
+                <p class="team-role">COO</p>
+                <p class="team-education">MBA-IIT Kanpur<br>Mechanical Engineer</p>
+                <p class="team-experience">Experience: ~ 7 years</p>
+                <p class="team-focus">FA: R&D, Space Dynamics Control Law design, Flight controller, Flight Mechanics</p>
+                <div class="team-linkedin">
+                    <a href="https://www.linkedin.com/in/deveshs24/" target="_blank" rel="noopener noreferrer" class="linkedin-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Team Member 3 -->
+            <div class="team-card">
+                <div class="team-photo">
+                    <!-- <img src="path/to/corey.jpg" alt="Corey Glickman"> -->
+                </div>
+                <h3 class="team-name">Corey Glickman</h3>
+                <p class="team-role">Chief Growth & Innovation Officer</p>
+                <p class="team-education">30+ Industry experience<br>Made 5+ startups to full grown business</p>
+                <p class="team-experience">Experience: ~ 4 years</p>
+                <p class="team-focus">FA: Strategy, Operations</p>
+                <div class="team-linkedin">
+                    <a href="https://www.linkedin.com/in/corey-glickman/" target="_blank" rel="noopener noreferrer" class="linkedin-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Team Member 4 -->
+            <div class="team-card">
+                <div class="team-photo">
+                    <!-- <img src="path/to/kamalpreet.jpg" alt="Kamalpreet Singh"> -->
+                </div>
+                <h3 class="team-name">Kamalpreet Singh</h3>
+                <p class="team-role">Mission Design Engineer</p>
+                <p class="team-education">MS (Space & Astronautical Engg), Sapienza Università di Roma, Italy</p>
+                <p class="team-experience">Experience: ~ 5 years</p>
+                <p class="team-focus">FA: R&D, Propulsion, Mission Planning</p>
+                <div class="team-linkedin">
+                    <a href="https://www.linkedin.com/in/kamalpreet-singh-23531b106/" target="_blank" rel="noopener noreferrer" class="linkedin-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Team Member 5 -->
+            <div class="team-card">
+                <div class="team-photo">
+                    <!-- <img src="path/to/abhishek.jpg" alt="Abhishek Tiwari"> -->
+                </div>
+                <h3 class="team-name">Abhishek TIWARI</h3>
+                <p class="team-role">Mentor</p>
+                <p class="team-education">IIT-Kanpur</p>
+                <p class="team-experience">Experience: ~ 7 years</p>
+                <p class="team-focus">FA: R&D, Design</p>
+                <div class="team-linkedin">
+                    <a href="https://www.linkedin.com/in/tabhishek02/" target="_blank" rel="noopener noreferrer" class="linkedin-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Team Member 6 -->
+            <div class="team-card">
+                <div class="team-photo">
+                    <!-- <img src="path/to/salahudden.jpg" alt="Dr. Salahudden"> -->
+                </div>
+                <h3 class="team-name">Dr. Salahudden</h3>
+                <p class="team-role">Financial Advisor</p>
+                <p class="team-education">20+ years in Strategy, Business Process Restructuring, Enterprise Risk Management, Customer Experience</p>
+                <p class="team-experience">15+ years with 9 years of Merchant Banking, Investment Banking, Transaction Advisory, Financial Valuations and Business Development</p>
+            </div>
+
+            <!-- Team Member 7 -->
+            <div class="team-card">
+                <div class="team-photo">
+                    <!-- <img src="path/to/maneesh.jpg" alt="Maneesh Srivastava"> -->
+                </div>
+                <h3 class="team-name">Mr Maneesh Srivastava</h3>
+                <p class="team-role">Co-Founder</p>
+                <p class="team-education">AlphaValue Consulting</p>
+                <p class="team-focus">FA: R&D, Design</p>
+                <div class="team-linkedin">
+                    <a href="https://www.linkedin.com/in/maneeshsrivastav/" target="_blank" rel="noopener noreferrer" class="linkedin-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Team Member 8 -->
+            <div class="team-card">
+                <div class="team-photo">
+                    <!-- <img src="path/to/nikhil.jpg" alt="Nikhil Kumar"> -->
+                </div>
+                <h3 class="team-name">Nikhil Kumar</h3>
+                <p class="team-role">R&D Engineer</p>
+                <p class="team-experience">Experience: ~ 5 years</p>
+                <p class="team-focus">FA: R&D, Propulsion, Mission Planning</p>
+            </div>
+
+            <!-- Team Member 9 -->
+            <div class="team-card">
+                <div class="team-photo">
+                    <!-- <img src="path/to/rupak.jpg" alt="RUPAK"> -->
+                </div>
+                <h3 class="team-name">RUPAK</h3>
+                <p class="team-role">Inventor</p>
+                <p class="team-education">Monolithic Non-Dynamic Cryogenic Pump for Rocket Application</p>
+                <p class="team-experience">Experience: ~3 years</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <p>&copy; 2024 Space Philic. All rights reserved.</p>
+        <p>Contact: indra.chaudhary@spacephilic.com</p>
+    </footer>
+</body>
+</html>

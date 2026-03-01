@@ -26,10 +26,10 @@ export default function Products() {
         {/* RUPAK Product */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '4rem',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))',
+          gap: 'clamp(2rem, 5vw, 4rem)',
           alignItems: 'center',
-          marginBottom: '8rem'
+          marginBottom: 'clamp(4rem, 8vw, 8rem)'
         }}>
           <div>
             <h3 style={{
@@ -122,54 +122,54 @@ export default function Products() {
             </div>
           </div>
 
-          {/* RUPAK Image Placeholder */}
+          {/* RUPAK Image */}
           <div style={{
             width: '100%',
             maxWidth: '400px',
-            aspectRatio: '1/4',
-            background: 'rgba(1, 0, 0, 0.4)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            borderRadius: '20px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            border: '1px solid rgba(221, 221, 221, 0.2)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
             margin: '0 auto'
           }}>
-            <span style={{ color: '#444', fontSize: '1rem', letterSpacing: '2px', textAlign: 'center', padding: '2rem' }}>
-              RUPAK ROCKET IMAGE<br/>(1:4 ratio)
-            </span>
+            <img
+              src="/rocket-main.png"
+              alt="RUPAK Reusable Launch Vehicle"
+              style={{
+                width: '100%',
+                height: 'auto',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.2))'
+              }}
+            />
           </div>
         </div>
 
         {/* Shakti Engine Product */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '4rem',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))',
+          gap: 'clamp(2rem, 5vw, 4rem)',
           alignItems: 'center'
         }}>
-          {/* Shakti Image Placeholder */}
+          {/* Shakti Image */}
           <div style={{
             width: '100%',
             maxWidth: '500px',
-            aspectRatio: '1/1',
-            background: 'rgba(1, 0, 0, 0.4)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            borderRadius: '20px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            border: '1px solid rgba(221, 221, 221, 0.2)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
             margin: '0 auto'
           }}>
-            <span style={{ color: '#444', fontSize: '1rem', letterSpacing: '2px', textAlign: 'center', padding: '2rem' }}>
-              SHAKTI ENGINE IMAGE<br/>(1:1 ratio)
-            </span>
+            <img
+              src="/satellite.png"
+              alt="Shakti Engine"
+              style={{
+                width: '100%',
+                height: 'auto',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.2))'
+              }}
+            />
           </div>
 
           <div>

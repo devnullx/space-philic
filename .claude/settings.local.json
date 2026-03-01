@@ -19,7 +19,11 @@
       "Bash(npm start)",
       "Bash(npm run dev:*)",
       "Bash(dir:*)",
-      "Bash(node -e:*)"
+      "Bash(node -e:*)",
+      "Bash(copy \"C:\\Users\\brain\\space-philic\\FFLV - 2026-02-26T011547.387 (1).png\" \"C:\\Users\\brain\\space-philic\\mern-spacephilic\\frontend\\public\\rupak-rocket.png\")",
+      "Bash(cp:*)",
+      "Bash(unzip:*)",
+      "Bash(ls:*)"
     ]
   }
 }

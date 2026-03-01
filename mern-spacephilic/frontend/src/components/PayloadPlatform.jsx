@@ -23,8 +23,7 @@ export default function PayloadPlatform() {
   return (
     <section style={{
       padding: '6rem 5%',
-      position: 'relative',
-      background: 'linear-gradient(180deg, #000 0%, #0a0a0a 100%)'
+      position: 'relative'
     }}>
       <div style={{
         maxWidth: '1400px',
@@ -47,11 +46,11 @@ export default function PayloadPlatform() {
         {platforms.map((platform, index) => (
           <div key={index} style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '4rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))',
+            gap: 'clamp(2rem, 5vw, 4rem)',
             alignItems: 'center',
-            marginBottom: '6rem',
-            minHeight: '60vh'
+            marginBottom: 'clamp(3rem, 6vw, 6rem)',
+            minHeight: 'auto'
           }}>
             <div style={{
               order: index % 2 === 0 ? 1 : 2
@@ -99,20 +98,20 @@ export default function PayloadPlatform() {
             <div style={{
               order: index % 2 === 0 ? 2 : 1,
               width: '100%',
-              aspectRatio: '4/3',
-              background: 'rgba(1, 0, 0, 0.4)',
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)',
-              borderRadius: '20px',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              border: '1px solid rgba(221, 221, 221, 0.2)',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+              justifyContent: 'center'
             }}>
-              <span style={{ color: '#444', fontSize: '1rem', letterSpacing: '2px', textAlign: 'center', padding: '2rem' }}>
-                {platform.title} IMAGE
-              </span>
+              <img
+                src={`/platform-${platform.number}.png`}
+                alt={platform.title}
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  objectFit: 'contain',
+                  filter: 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.2))'
+                }}
+              />
             </div>
           </div>
         ))}

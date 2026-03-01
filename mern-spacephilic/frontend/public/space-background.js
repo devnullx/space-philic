@@ -150,12 +150,19 @@
       star.twinklePhase += star.twinkleSpeed;
       star.alpha = star.baseAlpha * (0.7 + Math.sin(star.twinklePhase) * 0.3);
 
-      // Parallax on scroll (desktop only)
+      // Continuous downward movement for rocket launch effect
+      star.y += star.speed * 60; // Move stars downward continuously
+
+      // Reset star position when it goes off screen (infinite scroll)
+      if (star.y > canvas.height) {
+        star.y = -10;
+        star.x = Math.random() * canvas.width;
+      }
+
+      // Parallax on scroll (desktop only) - added to the continuous movement
       let yPos = star.y;
       if (!isMobile) {
         yPos = star.y + (scrollY * star.parallaxSpeed * 0.5);
-        if (yPos > canvas.height) yPos -= canvas.height;
-        if (yPos < 0) yPos += canvas.height;
       }
 
       ctx.beginPath();
@@ -208,6 +215,13 @@
       dot.pulsePhase += dot.pulseSpeed;
       const currentAlpha = dot.alpha * (0.5 + Math.sin(dot.pulsePhase) * 0.5);
 
+      // Add downward movement
+      dot.y += 0.3;
+      if (dot.y > canvas.height) {
+        dot.y = -10;
+        dot.x = Math.random() * canvas.width;
+      }
+
       ctx.beginPath();
       ctx.arc(dot.x, dot.y, dot.r, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(180, 150, 220, ${currentAlpha})`;
@@ -251,6 +265,13 @@
       const pulseFactor = 0.5 + Math.sin(star.pulsePhase) * 0.5;
       const currentSize = star.baseSize * (0.8 + pulseFactor * 0.4);
       const currentAlpha = star.baseAlpha * (0.7 + pulseFactor * 0.3);
+
+      // Add downward movement
+      star.y += 0.5;
+      if (star.y > canvas.height) {
+        star.y = -10;
+        star.x = Math.random() * canvas.width;
+      }
 
       // Draw outer glow
       const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, currentSize * 3);

@@ -78,18 +78,28 @@ nav {
   width: 100%;
   background: rgba(1, 0, 0, 0.89);
   backdrop-filter: blur(10px);
-  padding: 1.5rem 5%;
+  padding: clamp(0.5rem, 2vw, 1rem) 5%;
   z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  overflow: visible;
 }
 
 nav .logo {
   font-family: 'Glacial Indifference', sans-serif;
-  font-size: 1.5rem;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
   font-weight: bold;
-  letter-spacing: 2px;
+  letter-spacing: clamp(1px, 0.5vw, 2px);
+  flex-shrink: 0;
+  min-width: 150px;
+}
+
+nav .logo img {
+  max-width: 100%;
+  height: auto;
 }
 
 .hero {
@@ -256,6 +266,10 @@ nav .logo {
   .hero-text h1 {
     font-size: 3rem;
   }
+
+  nav {
+    padding: 1rem 3%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -272,6 +286,16 @@ nav .logo {
   .hero-specs {
     flex-direction: column;
     gap: 1.5rem;
+  }
+
+  nav {
+    padding: 0.8rem 3%;
+    justify-content: center;
+  }
+
+  nav .nav-links {
+    width: 100%;
+    justify-content: center;
   }
 
   /* Reduce animation complexity on mobile */
@@ -291,5 +315,81 @@ nav .logo {
   .hero-text h1,
   .section-title {
     text-shadow: 0 0 10px rgba(80, 140, 255, 0.3), 0 2px 6px rgba(0, 0, 0, 0.9);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 6rem 3% 3rem;
+  }
+
+  nav {
+    padding: 0.6rem 3%;
+  }
+
+  nav .logo {
+    font-size: 1rem;
+  }
+
+  nav .nav-links {
+    gap: 0.5rem;
+  }
+
+  nav .nav-links a {
+    font-size: 0.7rem;
+  }
+}
+
+/* Enhanced Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

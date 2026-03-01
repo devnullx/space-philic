@@ -4,6 +4,7 @@ import Vision from './components/Vision'
 import Products from './components/Products'
 import PayloadPlatform from './components/PayloadPlatform'
 import Team from './components/Team'
+import Contact from './components/Contact'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Products />
       <PayloadPlatform />
       <Team />
+      <Contact />
     </>
   )
 }

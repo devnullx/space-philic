@@ -1,0 +1,16 @@
+https://uqlaotaihcwykwjbehat.supabase.co
+
+Project URL
+
+
+________
+
+sb_publishable_yyM4lkAoYnQgoFKhLZxzAw_ACuZzGv3
+
+Publishable Key
+
+______
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVxbGFvdGFpaGN3eWt3amJlaGF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxMzA0MzMsImV4cCI6MjA4NzcwNjQzM30.XYOJwkPCuxXedJogPh1LU0y3Z-ENwLzrdQ3HfirnHp4
+
+Anon Key (Legacy)
