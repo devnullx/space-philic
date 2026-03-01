@@ -24,17 +24,19 @@
   const isMobile = window.innerWidth < 768;
   const isTablet = window.innerWidth >= 768 && window.innerWidth < 1200;
 
-  // Star configuration based on device
+  // Star configuration based on device - INCREASED DENSITY
   const STAR_LAYERS = isMobile ? [
-    { count: 200, sizeRange: [0.5, 1.5], speedRange: [0.002, 0.005], alpha: 0.6 }
+    { count: 400, sizeRange: [0.5, 1.5], speedRange: [0.002, 0.005], alpha: 0.6 },
+    { count: 200, sizeRange: [0.2, 0.5], speedRange: [0.001, 0.003], alpha: 0.4 }
   ] : isTablet ? [
-    { count: 100, sizeRange: [0.3, 0.8], speedRange: [0.001, 0.003], alpha: 0.4 },
-    { count: 150, sizeRange: [0.8, 1.5], speedRange: [0.003, 0.006], alpha: 0.7 },
-    { count: 50, sizeRange: [1.5, 2.5], speedRange: [0.006, 0.012], alpha: 0.9 }
+    { count: 300, sizeRange: [0.3, 0.8], speedRange: [0.001, 0.003], alpha: 0.4 },
+    { count: 400, sizeRange: [0.8, 1.5], speedRange: [0.003, 0.006], alpha: 0.7 },
+    { count: 150, sizeRange: [1.5, 2.5], speedRange: [0.006, 0.012], alpha: 0.9 }
   ] : [
-    { count: 150, sizeRange: [0.3, 0.8], speedRange: [0.001, 0.003], alpha: 0.4 },
-    { count: 250, sizeRange: [0.8, 1.5], speedRange: [0.003, 0.006], alpha: 0.7 },
-    { count: 100, sizeRange: [1.5, 2.5], speedRange: [0.006, 0.012], alpha: 0.9 }
+    { count: 400, sizeRange: [0.2, 0.6], speedRange: [0.001, 0.003], alpha: 0.3 },
+    { count: 600, sizeRange: [0.6, 1.2], speedRange: [0.003, 0.006], alpha: 0.6 },
+    { count: 300, sizeRange: [1.2, 2.0], speedRange: [0.006, 0.012], alpha: 0.8 },
+    { count: 150, sizeRange: [2.0, 3.0], speedRange: [0.008, 0.015], alpha: 0.9 }
   ];
 
   const COLORS = [
@@ -50,6 +52,7 @@
     createGalaxyDots();
     createConstellationLines();
     createPulsingStars();
+    createSatellites();
   }
 
   function createStars() {
@@ -77,14 +80,14 @@
 
   function createGalaxyDots() {
     galaxyDots = [];
-    const dotCount = isMobile ? 30 : 80;
+    const dotCount = isMobile ? 80 : 200; // INCREASED galaxy dots
 
     for (let i = 0; i < dotCount; i++) {
       galaxyDots.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        r: Math.random() * 0.3 + 0.2,
-        alpha: Math.random() * 0.15 + 0.05,
+        r: Math.random() * 0.4 + 0.2,
+        alpha: Math.random() * 0.2 + 0.08,
         pulseSpeed: Math.random() * 0.005 + 0.002,
         pulsePhase: Math.random() * Math.PI * 2
       });
@@ -292,8 +295,120 @@
     });
   }
 
+  // LEO Solar System Animation
+  let earth = {
+    x: canvas.width * 0.15,
+    y: canvas.height * 0.25,
+    radius: isMobile ? 30 : 50,
+    angle: 0,
+    rotationSpeed: 0.001
+  };
+
+  let satellites = [];
+  const satelliteCount = isMobile ? 2 : 4;
+
+  function createSatellites() {
+    satellites = [];
+    for (let i = 0; i < satelliteCount; i++) {
+      satellites.push({
+        orbitRadius: (isMobile ? 60 : 100) + (i * (isMobile ? 20 : 30)),
+        angle: (Math.PI * 2 / satelliteCount) * i,
+        speed: 0.008 - (i * 0.001),
+        size: isMobile ? 2 : 3,
+        trailPoints: []
+      });
+    }
+  }
+
+  function drawEarthLEO() {
+    if (isMobile && canvas.width < 600) return; // Skip on very small screens
+
+    // Earth position (top left area)
+    earth.x = canvas.width * 0.15;
+    earth.y = canvas.height * 0.25;
+
+    // Rotate Earth
+    earth.angle += earth.rotationSpeed;
+
+    // Draw Earth with atmosphere glow
+    const earthGradient = ctx.createRadialGradient(
+      earth.x, earth.y, earth.radius * 0.3,
+      earth.x, earth.y, earth.radius * 1.5
+    );
+    earthGradient.addColorStop(0, 'rgba(50, 120, 200, 0.6)');
+    earthGradient.addColorStop(0.5, 'rgba(30, 90, 180, 0.4)');
+    earthGradient.addColorStop(1, 'rgba(10, 50, 120, 0)');
+
+    // Atmosphere glow
+    ctx.beginPath();
+    ctx.arc(earth.x, earth.y, earth.radius * 1.5, 0, Math.PI * 2);
+    ctx.fillStyle = earthGradient;
+    ctx.fill();
+
+    // Earth surface
+    ctx.beginPath();
+    ctx.arc(earth.x, earth.y, earth.radius, 0, Math.PI * 2);
+    const surfaceGradient = ctx.createRadialGradient(
+      earth.x - earth.radius * 0.3, earth.y - earth.radius * 0.3, 0,
+      earth.x, earth.y, earth.radius
+    );
+    surfaceGradient.addColorStop(0, 'rgba(100, 180, 255, 0.5)');
+    surfaceGradient.addColorStop(0.6, 'rgba(50, 120, 200, 0.4)');
+    surfaceGradient.addColorStop(1, 'rgba(20, 70, 150, 0.3)');
+    ctx.fillStyle = surfaceGradient;
+    ctx.fill();
+
+    // Draw satellites orbiting Earth
+    satellites.forEach((sat, index) => {
+      sat.angle += sat.speed;
+
+      const satX = earth.x + Math.cos(sat.angle) * sat.orbitRadius;
+      const satY = earth.y + Math.sin(sat.angle) * sat.orbitRadius;
+
+      // Add trail point
+      sat.trailPoints.push({ x: satX, y: satY });
+      if (sat.trailPoints.length > (isMobile ? 30 : 60)) {
+        sat.trailPoints.shift();
+      }
+
+      // Draw orbit path (faint)
+      ctx.beginPath();
+      ctx.arc(earth.x, earth.y, sat.orbitRadius, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(80, 140, 255, 0.1)`;
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
+
+      // Draw satellite trail
+      if (!isMobile) {
+        sat.trailPoints.forEach((point, i) => {
+          const trailAlpha = (i / sat.trailPoints.length) * 0.3;
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 0.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(80, 140, 255, ${trailAlpha})`;
+          ctx.fill();
+        });
+      }
+
+      // Draw satellite
+      ctx.beginPath();
+      ctx.arc(satX, satY, sat.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.fill();
+
+      // Satellite glow
+      const satGlow = ctx.createRadialGradient(satX, satY, 0, satX, satY, sat.size * 3);
+      satGlow.addColorStop(0, 'rgba(80, 140, 255, 0.6)');
+      satGlow.addColorStop(1, 'rgba(80, 140, 255, 0)');
+      ctx.beginPath();
+      ctx.arc(satX, satY, sat.size * 3, 0, Math.PI * 2);
+      ctx.fillStyle = satGlow;
+      ctx.fill();
+    });
+  }
+
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawEarthLEO(); // Draw Earth LEO system first
     drawGalaxyDots();
     drawConstellationLines();
     drawStars();
