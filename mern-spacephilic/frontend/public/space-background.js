@@ -295,68 +295,71 @@
     });
   }
 
-  // LEO Solar System Animation
+  // LEO Solar System Animation - ENHANCED VISIBILITY
   let earth = {
-    x: canvas.width * 0.15,
-    y: canvas.height * 0.25,
-    radius: isMobile ? 30 : 50,
+    x: canvas.width * 0.2,
+    y: canvas.height * 0.3,
+    radius: isMobile ? 50 : 80,
     angle: 0,
     rotationSpeed: 0.001
   };
 
   let satellites = [];
-  const satelliteCount = isMobile ? 2 : 4;
+  const satelliteCount = isMobile ? 3 : 5;
 
   function createSatellites() {
     satellites = [];
     for (let i = 0; i < satelliteCount; i++) {
       satellites.push({
-        orbitRadius: (isMobile ? 60 : 100) + (i * (isMobile ? 20 : 30)),
+        orbitRadius: (isMobile ? 80 : 120) + (i * (isMobile ? 25 : 35)),
         angle: (Math.PI * 2 / satelliteCount) * i,
-        speed: 0.008 - (i * 0.001),
-        size: isMobile ? 2 : 3,
+        speed: 0.012 - (i * 0.0015),
+        size: isMobile ? 3 : 5,
         trailPoints: []
       });
     }
   }
 
   function drawEarthLEO() {
-    if (isMobile && canvas.width < 600) return; // Skip on very small screens
-
     // Earth position (top left area)
-    earth.x = canvas.width * 0.15;
-    earth.y = canvas.height * 0.25;
+    earth.x = canvas.width * 0.2;
+    earth.y = canvas.height * 0.3;
 
     // Rotate Earth
     earth.angle += earth.rotationSpeed;
 
-    // Draw Earth with atmosphere glow
+    // Draw Earth with atmosphere glow - ENHANCED BRIGHTNESS
     const earthGradient = ctx.createRadialGradient(
       earth.x, earth.y, earth.radius * 0.3,
-      earth.x, earth.y, earth.radius * 1.5
+      earth.x, earth.y, earth.radius * 2
     );
-    earthGradient.addColorStop(0, 'rgba(50, 120, 200, 0.6)');
-    earthGradient.addColorStop(0.5, 'rgba(30, 90, 180, 0.4)');
-    earthGradient.addColorStop(1, 'rgba(10, 50, 120, 0)');
+    earthGradient.addColorStop(0, 'rgba(80, 160, 255, 0.8)');
+    earthGradient.addColorStop(0.5, 'rgba(50, 130, 220, 0.6)');
+    earthGradient.addColorStop(1, 'rgba(30, 80, 180, 0)');
 
-    // Atmosphere glow
+    // Atmosphere glow - LARGER AND BRIGHTER
     ctx.beginPath();
-    ctx.arc(earth.x, earth.y, earth.radius * 1.5, 0, Math.PI * 2);
+    ctx.arc(earth.x, earth.y, earth.radius * 2, 0, Math.PI * 2);
     ctx.fillStyle = earthGradient;
     ctx.fill();
 
-    // Earth surface
+    // Earth surface - MORE VISIBLE
     ctx.beginPath();
     ctx.arc(earth.x, earth.y, earth.radius, 0, Math.PI * 2);
     const surfaceGradient = ctx.createRadialGradient(
       earth.x - earth.radius * 0.3, earth.y - earth.radius * 0.3, 0,
       earth.x, earth.y, earth.radius
     );
-    surfaceGradient.addColorStop(0, 'rgba(100, 180, 255, 0.5)');
-    surfaceGradient.addColorStop(0.6, 'rgba(50, 120, 200, 0.4)');
-    surfaceGradient.addColorStop(1, 'rgba(20, 70, 150, 0.3)');
+    surfaceGradient.addColorStop(0, 'rgba(120, 200, 255, 0.9)');
+    surfaceGradient.addColorStop(0.5, 'rgba(80, 160, 230, 0.8)');
+    surfaceGradient.addColorStop(1, 'rgba(40, 100, 180, 0.7)');
     ctx.fillStyle = surfaceGradient;
     ctx.fill();
+
+    // Add bright edge glow
+    ctx.strokeStyle = 'rgba(100, 180, 255, 0.6)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
 
     // Draw satellites orbiting Earth
     satellites.forEach((sat, index) => {
@@ -371,36 +374,42 @@
         sat.trailPoints.shift();
       }
 
-      // Draw orbit path (faint)
+      // Draw orbit path - MORE VISIBLE
       ctx.beginPath();
       ctx.arc(earth.x, earth.y, sat.orbitRadius, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(80, 140, 255, 0.1)`;
-      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = `rgba(80, 140, 255, 0.25)`;
+      ctx.lineWidth = 1;
       ctx.stroke();
 
-      // Draw satellite trail
+      // Draw satellite trail - BRIGHTER
       if (!isMobile) {
         sat.trailPoints.forEach((point, i) => {
-          const trailAlpha = (i / sat.trailPoints.length) * 0.3;
+          const trailAlpha = (i / sat.trailPoints.length) * 0.6;
           ctx.beginPath();
-          ctx.arc(point.x, point.y, 0.5, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(80, 140, 255, ${trailAlpha})`;
+          ctx.arc(point.x, point.y, 1, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(100, 180, 255, ${trailAlpha})`;
           ctx.fill();
         });
       }
 
-      // Draw satellite
+      // Draw satellite - LARGER AND BRIGHTER
       ctx.beginPath();
       ctx.arc(satX, satY, sat.size, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.fillStyle = 'rgba(255, 255, 255, 1)';
       ctx.fill();
 
-      // Satellite glow
-      const satGlow = ctx.createRadialGradient(satX, satY, 0, satX, satY, sat.size * 3);
-      satGlow.addColorStop(0, 'rgba(80, 140, 255, 0.6)');
-      satGlow.addColorStop(1, 'rgba(80, 140, 255, 0)');
+      // Add satellite border for visibility
+      ctx.strokeStyle = 'rgba(80, 140, 255, 0.9)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Satellite glow - MUCH BRIGHTER
+      const satGlow = ctx.createRadialGradient(satX, satY, 0, satX, satY, sat.size * 5);
+      satGlow.addColorStop(0, 'rgba(100, 180, 255, 0.9)');
+      satGlow.addColorStop(0.5, 'rgba(80, 140, 255, 0.6)');
+      satGlow.addColorStop(1, 'rgba(60, 120, 200, 0)');
       ctx.beginPath();
-      ctx.arc(satX, satY, sat.size * 3, 0, Math.PI * 2);
+      ctx.arc(satX, satY, sat.size * 5, 0, Math.PI * 2);
       ctx.fillStyle = satGlow;
       ctx.fill();
     });
